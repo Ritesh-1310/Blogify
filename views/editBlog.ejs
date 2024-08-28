@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Edit Blog | Blogify</title>
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-4">
+      <h1 class="mb-4">Edit Blog</h1>
+      <form action="/blog/<%= blog._id %>/edit" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="title" name="title" value="<%= blog.title %>" required>
+        </div>
+        <div class="mb-3">
+          <label for="body" class="form-label">Body</label>
+          <textarea class="form-control" id="body" name="body" rows="10" required><%= blog.body %></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="coverImage" class="form-label">Cover Image</label>
+          <input class="form-control" type="file" id="coverImage" name="coverImage">
+          <% if (blog.coverImageURL) { %>
+            <div class="mt-2">
+              <img src="<%= blog.coverImageURL %>" class="img-fluid rounded blog-cover-image" alt="Current cover image" />
+            </div>
+          <% } %>
+        </div>
+        <button type="submit" class="btn btn-primary mb-4">Update Blog</button>
+      </form>
+    </div>
+
+    <%- include('./partials/scripts') %>
+  </body>
+</html>

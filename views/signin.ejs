@@ -1,0 +1,37 @@
+<%- include('./partials/head') %>
+  <%- include('./partials/nav') %>
+    <div class="container mt-5">
+      <% if (locals.error) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= locals.error %>
+        </div>
+        <% } %>
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <h4 class="card-title mb-4 text-center">Signin to Blogify</h4>
+                  <form action="/user/signin" method="post">
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Email address</label>
+                      <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter your email" required />
+                      <div id="emailHelp" class="form-text">
+                        We'll never share your email with anyone else.
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                      <input name="password" type="password" class="form-control" id="exampleInputPassword1"
+                        placeholder="Enter your password" required />
+                    </div>
+                    <div class="d-grid">
+                      <button type="submit" class="btn btn-primary">Signin</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    <%- include('./partials/scripts') %>
