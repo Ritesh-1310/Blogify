@@ -8,14 +8,20 @@ function createTokenForUser(user) {
     email: user.email,
     profileImageURL: user.profileImageURL,
     role: user.role,
+    name: user.fullName, 
   };
-  const token = JWT.sign(payload, secret);
+  const token = JWT.sign(payload, secret, { expiresIn: '1h' }); // Optionally set an expiration
   return token;
 }
 
+
 function validateToken(token) {
-  const payload = JWT.verify(token, secret);
-  return payload;
+  try {
+    const payload = JWT.verify(token, secret);
+    return payload;
+  } catch (error) {
+    throw new Error("Token validation failed");
+  }
 }
 
 module.exports = {

@@ -9,10 +9,16 @@ function checkForAuthenticationCookie(cookieName) {
 
     try {
       const userPayload = validateToken(tokenCookieValue);
-      req.user = userPayload;
-    } catch (error) {}
+      req.user = userPayload;  // Attach the user to the request object
+      res.locals.user = userPayload;  // Make user available to all templates
 
-    return next();
+      // Log the user payload for debugging
+      // console.log("User set in locals:", res.locals.user);
+    } catch (error) {
+      console.error("Invalid token:", error.message);
+    }
+
+    next();
   };
 }
 
