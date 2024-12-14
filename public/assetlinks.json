@@ -1,0 +1,13 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.user.eduquick",
+        "sha256_cert_fingerprints": [
+          "E7:6C:B7:64:CA:19:A6:9B:C4:82:85:9A:D0:3F:DC:A7:90:0C:01:42:B9:E0:2F:EA:F5:90:49:DF:AC:BB:2F:0C"
+        ]
+      }
+    }
+]
+  
