@@ -5,7 +5,8 @@
         "namespace": "android_app",
         "package_name": "com.user.eduquick",
         "sha256_cert_fingerprints": [
-          "E7:6C:B7:64:CA:19:A6:9B:C4:82:85:9A:D0:3F:DC:A7:90:0C:01:42:B9:E0:2F:EA:F5:90:49:DF:AC:BB:2F:0C"
+          "E7:6C:B7:64:CA:19:A6:9B:C4:82:85:9A:D0:3F:DC:A7:90:0C:01:42:B9:E0:2F:EA:F5:90:49:DF:AC:BB:2F:0C",
+          "BF:71:49:83:3C:25:E2:EB:CF:F4:30:61:8B:B8:9E:84:5A:89:FD:DC:06:A0:32:8A:ED:E6:E4:9C:A8:CB:E1:7B"
         ]
       }
     }
