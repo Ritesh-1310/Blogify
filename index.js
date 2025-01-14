@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const Blog = require("./models/blog");
 const userRoute = require("./routes/user");
 const blogRoute = require("./routes/blog");
+const assetLinks = require('./public/assetlinks.json');
 
 const {
   checkForAuthenticationCookie,
@@ -40,6 +41,10 @@ app.get("/", async (req, res) => {
     console.error("Error fetching blogs:", error);
     res.status(500).render("error", { message: "Failed to fetch blogs" });
   }
+});
+
+app.get('/.well-known/assetlinks.json', (req, res) => {
+  res.json(assetLinks); // Send the assetlinks.json content as a response
 });
 
 app.use("/user", userRoute);
