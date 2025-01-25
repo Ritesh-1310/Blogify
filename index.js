@@ -47,6 +47,23 @@ app.get('/.well-known/assetlinks.json', (req, res) => {
   res.json(assetLinks); // Send the assetlinks.json content as a response
 });
 
+// Serve the video route
+app.get("/video", (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>EduQuick Video</title>
+    </head>
+    <body>
+      <script src="/deepLinkHandler.js"></script>
+    </body>
+    </html>
+  `);
+});
+
 app.use("/user", userRoute);
 app.use("/blog", blogRoute);
 
