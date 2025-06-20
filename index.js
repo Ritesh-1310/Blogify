@@ -22,7 +22,7 @@ mongoose
 
 // CORS setup for React frontend
 app.use(cors({
-  origin: "http://localhost:5173", // Replace with your React frontend URL in production
+  origin: "https://blogify-frontend-teal.vercel.app", 
   credentials: true,
 }));
 
