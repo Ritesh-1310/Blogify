@@ -1,70 +1,48 @@
 require("dotenv").config();
 
-const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const path = require("path");
 
-const Blog = require("./models/blog");
-const userRoute = require("./routes/user");
-const blogRoute = require("./routes/blog");
-const assetLinks = require('./public/assetlinks.json');
+const { checkForAuthenticationCookie } = require("./middlewares/authentication");
 
-const {
-  checkForAuthenticationCookie,
-} = require("./middlewares/authentication");
+const userRoutes = require("./routes/api/user");
+const blogRoutes = require("./routes/api/blog");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-app.set("view engine", "ejs");
-app.set("views", path.resolve("./views"));
+// CORS setup for React frontend
+app.use(cors({
+  origin: "http://localhost:5173", // Replace with your React frontend URL in production
+  credentials: true,
+}));
 
-app.use(express.urlencoded({ extended: false }));
+// Middleware
+app.use(express.json());
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"));
 app.use(express.static(path.resolve("./public")));
 
-app.get("/", async (req, res) => {
-  try {
-    const allBlogs = await Blog.find({});
-    res.render("home", {
-      user: req.user,
-      blogs: allBlogs,
-    });
-  } catch (error) {
-    console.error("Error fetching blogs:", error);
-    res.status(500).render("error", { message: "Failed to fetch blogs" });
-  }
+// Routes
+app.use("/api/user", userRoutes);
+app.use("/api/blog", blogRoutes);
+
+// 404 Fallback
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "API route not found" });
 });
 
-app.get('/.well-known/assetlinks.json', (req, res) => {
-  res.json(assetLinks); // Send the assetlinks.json content as a response
+// Start Server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
 
-// Serve the video route
-app.get("/video", (req, res) => {
-  res.send(`
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>EduQuick Video</title>
-    </head>
-    <body>
-      <script src="/deepLinkHandler.js"></script>
-    </body>
-    </html>
-  `);
-});
-
-app.use("/user", userRoute);
-app.use("/blog", blogRoute);
-
-app.listen(PORT, () => console.log(`Server Started at PORT: ${PORT}`));
