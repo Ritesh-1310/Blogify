@@ -20,23 +20,25 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// CORS setup for React frontend
+// CORS setup
+// Allow both production and local dev frontend
 const allowedOrigins = [
-  "https://blogify-frontend-teal.vercel.app", // production frontend
-  "http://localhost:5173",                    // dev frontend
+  "https://blogify-frontend-teal.vercel.app",
+  "http://localhost:5173",
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
+    // Allow requests with no origin (like mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS: " + origin));
+      return callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
 }));
-console.log("Incoming origin:", origin);
 
 // Middleware
 app.use(express.json());
@@ -47,6 +49,21 @@ app.use(express.static(path.resolve("./public")));
 // Routes
 app.use("/api/user", userRoutes);
 app.use("/api/blog", blogRoutes);
+
+// API base route
+app.get("/", (req, res) => {
+  return res.status(200).json({
+    message: "Blogify API is working!",
+    docs: "API documentation will be available soon.",
+  });
+});
+
+app.get("/api", (req, res) => {
+  return res.status(200).json({
+    message: "Blogify API is working!",
+    docs: "API documentation will be available soon.",
+  });
+});
 
 // 404 Fallback
 app.use("*", (req, res) => {
