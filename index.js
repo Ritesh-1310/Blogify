@@ -22,9 +22,13 @@ mongoose
 
 // CORS setup for React frontend
 app.use(cors({
-  origin: "https://blogify-frontend-teal.vercel.app", 
+  origin: [
+    "https://blogify-frontend-teal.vercel.app", // deployed frontend
+    "http://localhost:5173",                    // for dev testing
+  ],
   credentials: true,
 }));
+
 
 // Middleware
 app.use(express.json());
