@@ -21,14 +21,22 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // CORS setup for React frontend
+const allowedOrigins = [
+  "https://blogify-frontend-teal.vercel.app", // production frontend
+  "http://localhost:5173",                    // dev frontend
+];
+
 app.use(cors({
-  origin: [
-    "https://blogify-frontend-teal.vercel.app", // deployed frontend
-    "http://localhost:5173",                    // for dev testing
-  ],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS: " + origin));
+    }
+  },
   credentials: true,
 }));
-
+console.log("Incoming origin:", origin);
 
 // Middleware
 app.use(express.json());

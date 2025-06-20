@@ -10,11 +10,15 @@ exports.signin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const token = await User.matchPasswordAndGenerateToken(email, password);
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None", 
-    }).json({ message: "Login successful" });
+    res.cookie(
+      "token", 
+      token, 
+      {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None", 
+      }
+  ).json({ message: "Login successful" });
 
   } catch {
     res.status(401).json({ message: "Invalid credentials" });
