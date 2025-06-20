@@ -24,21 +24,21 @@ mongoose
 // Allow both production and local dev frontend
 const allowedOrigins = [
   "https://blogify-frontend-teal.vercel.app",
-  "http://localhost:5173",
+  "http://localhost:5173"
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, Postman)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
     } else {
-      return callback(new Error("Not allowed by CORS"));
+      console.warn("Blocked by CORS:", origin);
+      callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
+  credentials: true, // Important for cookies/auth
 }));
+
 
 // Middleware
 app.use(express.json());
